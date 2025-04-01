@@ -1,5 +1,5 @@
-from pprint import pprint
-
+from src.customer_assistance.domain.assistance_created_event import \
+    AssistanceCreatedEvent
 from src.customer_assistance.domain.assistance_topic import AssistanceTopic
 from src.shared.domain.aggregate_root import AggregateRoot
 from src.shared.domain.value_object.custom_uuid import Uuid
@@ -25,6 +25,10 @@ class Assistance(AggregateRoot):
             topic: AssistanceTopic,
             description: str
     ) -> "Assistance":
-        pprint(f"create: {assistance_id}, {topic}, {description}")
         assistance = cls(assistance_id, topic, description)
+        assistance.record_event(AssistanceCreatedEvent(
+            assistance_id.value,
+            topic.value,
+            description
+        ))
         return assistance

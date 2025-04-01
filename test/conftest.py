@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from src.shared.infrastructure.api.main import app
-from src.shared.infrastructure.persistence.database import Base, get_db
+from src.shared.infrastructure.persistence.database import SQLBase, get_db
 
 
 @pytest.fixture
@@ -18,7 +18,7 @@ def test_db():
     TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
     # Create all tables
-    Base.metadata.create_all(bind=engine)
+    SQLBase.metadata.create_all(bind=engine)
 
     # Create a test database session
     db = TestingSessionLocal()
@@ -26,7 +26,7 @@ def test_db():
         yield db
     finally:
         db.close()
-        Base.metadata.drop_all(bind=engine)
+        SQLBase.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture

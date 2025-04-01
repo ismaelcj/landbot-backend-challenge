@@ -1,5 +1,4 @@
 import uuid
-from pprint import pprint
 
 from src.shared.domain.value_object.value_object import ValueObject
 
@@ -11,7 +10,6 @@ class Uuid(ValueObject):
 
     @staticmethod
     def ensure_valid_uuid(value: str) -> None:
-        pprint(f"ensure_valid_uuid: {value}")
         try:
             uuid.UUID(value)
         except ValueError:
