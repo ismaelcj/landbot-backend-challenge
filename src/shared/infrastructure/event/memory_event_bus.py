@@ -8,8 +8,8 @@ from src.shared.domain.event.event_bus import EventBus
 
 class MemoryEventBus(EventBus):
 
-    def __init__(self):
-        self._subscriptions = defaultdict(list)
+    def __init__(self) -> None:
+        self._subscriptions: dict = defaultdict(list)
 
     def subscribe(self, event_type: Type[DomainEvent], handler: DomainEventHandler) -> None:
         self._subscriptions[event_type].append(handler)
