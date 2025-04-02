@@ -21,14 +21,38 @@ class Assistance(AggregateRoot):
     @classmethod
     def create(
             cls,
-            assistance_id: Uuid,
-            topic: AssistanceTopic,
+            assistance_id: str,
+            topic: str,
             description: str
     ) -> "Assistance":
-        assistance = cls(assistance_id, topic, description)
+        assistance = cls(
+            assistance_id=Uuid(assistance_id),
+            topic=AssistanceTopic(topic),
+            description=description
+        )
         assistance.record_event(AssistanceCreatedEvent(
-            assistance_id.value,
-            topic.value,
+            assistance_id,
+            topic,
             description
         ))
         return assistance
+
+    @classmethod
+    def from_primitives(
+            cls,
+            assistance_id: str,
+            topic: str,
+            description: str
+    ) -> "Assistance":
+        return cls(
+            assistance_id=Uuid(assistance_id),
+            topic=AssistanceTopic(topic),
+            description=description
+        )
+
+    def to_primitives(self) -> dict:
+        return {
+            "id": self._id.value,
+            "topic": self._topic.value,
+            "description": self._description
+        }
