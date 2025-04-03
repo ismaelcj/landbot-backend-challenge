@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 from src.customer_assistance.application.assistance_request_command import AssistanceRequestCommand
 from src.customer_assistance.infrastructure.api.models import AssistanceRequest
-from src.shared.infrastructure.api.deps import CommandBus
+from src.shared.infrastructure.deps import CommandBus
 
 router = APIRouter(prefix="/assistance_request", tags=["assistance"])
 
