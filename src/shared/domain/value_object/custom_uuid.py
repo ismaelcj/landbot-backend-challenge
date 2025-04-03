@@ -17,4 +17,4 @@ class Uuid(ValueObject):
 
     @staticmethod
     def generate() -> str:
-        return str(uuid.uuid4())
+        return uuid.uuid4().hex
