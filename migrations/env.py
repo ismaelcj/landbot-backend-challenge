@@ -7,6 +7,7 @@ from alembic import context
 
 from src.shared.infrastructure.persistence.database import SQLBase
 from src.shared.infrastructure.config import settings
+from src.customer_assistance.infrastructure.assistance_record import AssistanceRecord
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
