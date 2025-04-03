@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.customer_assistance.infrastructure.api import routes as assistance_routes
+
 app = FastAPI(
     title="Landbot Backend Challenge",
     description="API for Landbot Backend Challenge",
@@ -14,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(assistance_routes.router)
 
 
 @app.get("/")
