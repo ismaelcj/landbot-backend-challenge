@@ -1,6 +1,6 @@
 build:
 	docker compose up --build -d
-	docker compose exec app alembic init migrations
+	docker compose exec app alembic upgrade head
 
 re-build:
 	docker compose down
