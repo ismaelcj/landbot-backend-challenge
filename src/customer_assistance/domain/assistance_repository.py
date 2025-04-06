@@ -11,3 +11,7 @@ class AssistanceRepository(ABC):
     @abstractmethod
     def find_by_id(self, assistance_id: str) -> Assistance:
         pass
+
+    @abstractmethod
+    def exists(self, assistance_id) -> bool:
+        pass

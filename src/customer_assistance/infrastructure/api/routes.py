@@ -8,7 +8,7 @@ router = APIRouter(prefix="/assistance_request", tags=["assistance"])
 
 
 @router.put("/")
-def request_assistance(
+async def request_assistance(
     request: AssistanceRequest,
     command_bus: CommandBus
 ) -> None:

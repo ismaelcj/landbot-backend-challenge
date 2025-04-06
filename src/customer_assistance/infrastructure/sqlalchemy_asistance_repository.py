@@ -1,3 +1,4 @@
+from sqlalchemy import exists
 from sqlalchemy.orm import Session
 
 from src.customer_assistance.domain.assistance_repository import AssistanceRepository
@@ -17,3 +18,8 @@ class SqlalchemyAssistanceRepository(AssistanceRepository):
     def find_by_id(self, assistance_id: str) -> Assistance:
         assistance_record = self._db_session.query(AssistanceRecord).filter_by(id=assistance_id).one()
         return assistance_record.to_entity()
+
+    def exists(self, assistance_id: str) -> bool:
+        exists_query = self._db_session.query(
+            exists().where(AssistanceRecord.id == assistance_id)).scalar()
+        return True if exists_query else False

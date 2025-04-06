@@ -16,11 +16,14 @@ class MemoryEventBus(EventBus):
 
     def publish(self, events: List[DomainEvent]) -> None:
         for event in events:
-            event_classes = [cls for cls in event.__class__.__mro__ if cls != object]
+            self._publish_event(event)
 
-            handlers = []
-            for event_class in event_classes:
-                handlers.extend(self._subscriptions.get(event_class, []))
+    def _publish_event(self, event):
+        event_classes = [cls for cls in event.__class__.__mro__ if cls != object]
 
-            for handler in handlers:
-                handler(event)
+        handlers = []
+        for event_class in event_classes:
+            handlers.extend(self._subscriptions.get(event_class, []))
+
+        for handler in handlers:
+            handler(event)

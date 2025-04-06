@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from src.customer_assistance.domain.assistance import Assistance
 from src.customer_assistance.domain.assistance_created_event import AssistanceCreatedEvent
 from src.customer_assistance.domain.assistance_topic import AssistanceTopic
@@ -39,7 +37,7 @@ class TestAssistance:
         assert event.aggregate_id == assistance_id
         assert event.topic == topic
         assert event.description == description
-        assert event.event_name() == "landbot.customer_assistance.assistance.created"
+        assert event.event_name == "landbot.customer_assistance.assistance.created"
 
     def test_assistance_domain_events_are_cleared_after_pulling(self):
         assistance_id = Uuid.generate()

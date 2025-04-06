@@ -28,7 +28,7 @@ class AssistanceRecord(SQLBase):
 
     def to_primitives(self) -> dict:
         return {
-            "id": self.id,
+            "assistance_id": self.id,
             "topic": self.topic,
             "description": self.description,
         }

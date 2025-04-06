@@ -1,4 +1,5 @@
 from unittest.mock import Mock
+import pytest
 
 from src.customer_assistance.application.assistance_request_command_handler import AssistanceRequestCommandHandler
 from src.customer_assistance.domain.assistance_repository import AssistanceRepository
@@ -12,6 +13,7 @@ from tests.customer_assistance.domain.assistance_request_command_mother import A
 class TestAssistanceRequestCommandHandler:
     def setup_method(self):
         self.assistance_repository = Mock(spec=AssistanceRepository)
+        self.assistance_repository.exists.return_value = False
         self.event_bus = Mock(spec=EventBus)
 
         self.handler = AssistanceRequestCommandHandler(
@@ -41,3 +43,16 @@ class TestAssistanceRequestCommandHandler:
         published_events = self.event_bus.publish.call_args[0][0]
         assert len(published_events) > 0
         assert any(isinstance(event, AssistanceCreatedEvent) for event in published_events)
+
+    def test_handle_should_raise_value_error_when_id_already_exists(self):
+        self.assistance_repository.exists.return_value = True
+        command = AssistanceRequestCommandMother.create()
+        
+        with pytest.raises(
+                ValueError,
+                match=f"Assistance with id: '{command.assistance_id}' already exists"
+        ):
+            self.handler.handle(command)
+        
+        self.assistance_repository.save.assert_not_called()
+        self.event_bus.publish.assert_not_called()

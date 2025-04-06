@@ -8,5 +8,13 @@ class AssistanceCreatedEvent(DomainEvent):
         self.topic = topic
         self.description = description
 
+    @property
     def event_name(self) -> str:
         return "landbot.customer_assistance.assistance.created"
+
+    def to_primitives(self) -> dict:
+        return {
+            'id': self.aggregate_id,
+            'topic': self.topic,
+            'description': self.description
+        }

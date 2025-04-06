@@ -11,6 +11,7 @@ class AssistanceRequestCommandHandler(CommandHandler):
         self.__event_bus = event_bus
 
     def handle(self, command: AssistanceRequestCommand) -> None:
+        self.ensure_assistance_not_exists(command.assistance_id)
         assistance = Assistance.create(
             command.assistance_id,
             command.topic,
@@ -18,3 +19,8 @@ class AssistanceRequestCommandHandler(CommandHandler):
         )
         self.__assistance_repository.save(assistance)
         self.__event_bus.publish(assistance.pull_domain_events())
+
+    def ensure_assistance_not_exists(self, assistance_id: str) -> None:
+        assistance_exists = self.__assistance_repository.exists(assistance_id)
+        if assistance_exists:
+            raise ValueError(f"Assistance with id: '{assistance_id}' already exists.")
